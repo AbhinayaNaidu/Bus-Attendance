@@ -32,6 +32,7 @@
             border-radius:15px;
             box-shadow:0 10px 25px rgba(0,0,0,0.3);
             text-align:center;
+            animation: fadeIn 1s ease-in-out;
         }
 
         h2 {
@@ -52,6 +53,12 @@
             border:1px solid #ccc;
             margin-bottom:20px;
             font-size:16px;
+        }
+
+        input:focus {
+            border-color:#007BFF;
+            outline:none;
+            box-shadow:0 0 5px #007BFF;
         }
 
         button {
@@ -75,6 +82,16 @@
             color:#777;
         }
 
+        @keyframes fadeIn {
+            from {opacity:0; transform:translateY(20px);}
+            to {opacity:1; transform:translateY(0);}
+        }
+
+        @media(max-width:480px){
+            .container{
+                padding:25px;
+            }
+        }
     </style>
 </head>
 
@@ -84,38 +101,21 @@
     <h2>🚍 Smart Bus Attendance</h2>
     <p>Scan QR & Enter Roll Number</p>
 
-    <form id="attendanceForm">
-        <input type="text" id="rollno" placeholder="Enter Roll Number" required>
+    <!-- FORM START -->
+    <form method="POST"
+          action="https://script.google.com/macros/s/AKfycbx7ilVGXTy9MvgWsbuXw4-udgsGa0SpUb-Vf0lVXIaNXbvVc02QyhkOyD5lVHvqoG4M/exec"
+          target="_blank">
+
+        <input type="text" name="rollno" placeholder="Enter Roll Number" required>
         <button type="submit">Submit Attendance</button>
+
     </form>
+    <!-- FORM END -->
 
     <div class="footer">
         Secure • Real-Time • Automated System
     </div>
 </div>
-
-<script>
-document.getElementById("attendanceForm").addEventListener("submit", function(e){
-    e.preventDefault();
-
-    const rollno = document.getElementById("rollno").value;
-
-    fetch("https://script.googleusercontent.com/macros/echo?user_content_key=AY5xjrTCywBSHH9UJc22o9Vc52g3JJMcieU_EeZNxzz8Tu0db3Sa0Ns-Ub9E9nj42aogVe5WQS6esjXgWhzPsC5a_XZ4vC5OpPpm_LEZDrWIbuVyP7Vy2dResG8NskObhgx0sQes17wNNsCzORGSLA9Lc_eCOtnVbVxeqxfVc7ip9jb_TbBFFXJUL3X2LOPdDFLuac8IfjSEQnTMDnbAMXrO-h3UEvP25Vlx1el4NvwSi-M9EaRsog6ecNCEMs9yW6BCmMTNluIgVO0KB4mc1fdsWBhqGdIw0Q&lib=M6lD-3iBEuXpr385kJl2Ey9BpqG-IekUq", {
-        method: "POST",
-        body: new URLSearchParams({
-            rollno: rollno
-        })
-    })
-    .then(response => response.text())
-    .then(data => {
-        alert("Attendance Submitted Successfully ✅");
-        document.getElementById("attendanceForm").reset();
-    })
-    .catch(error => {
-        alert("Error submitting attendance ❌");
-    });
-});
-</script>
 
 </body>
 </html>
