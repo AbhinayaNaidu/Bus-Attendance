@@ -32,19 +32,11 @@
             border-radius:15px;
             box-shadow:0 10px 25px rgba(0,0,0,0.3);
             text-align:center;
-            animation: fadeIn 1s ease-in-out;
         }
 
-        h2 {
-            margin-bottom:10px;
-            color:#2c3e50;
-        }
+        h2 { margin-bottom:10px; color:#2c3e50; }
 
-        p {
-            margin-bottom:25px;
-            color:#555;
-            font-size:14px;
-        }
+        p { margin-bottom:25px; color:#555; font-size:14px; }
 
         input {
             width:100%;
@@ -53,12 +45,6 @@
             border:1px solid #ccc;
             margin-bottom:20px;
             font-size:16px;
-        }
-
-        input:focus {
-            border-color:#007BFF;
-            outline:none;
-            box-shadow:0 0 5px #007BFF;
         }
 
         button {
@@ -72,9 +58,7 @@
             cursor:pointer;
         }
 
-        button:hover {
-            background:#0056b3;
-        }
+        button:hover { background:#0056b3; }
 
         .footer {
             margin-top:15px;
@@ -82,15 +66,18 @@
             color:#777;
         }
 
-        @keyframes fadeIn {
-            from {opacity:0; transform:translateY(20px);}
-            to {opacity:1; transform:translateY(0);}
-        }
-
-        @media(max-width:480px){
-            .container{
-                padding:25px;
-            }
+        /* Success Popup */
+        .popup {
+            display:none;
+            position:fixed;
+            top:20px;
+            right:20px;
+            background:#28a745;
+            color:white;
+            padding:15px 25px;
+            border-radius:8px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.3);
+            font-weight:bold;
         }
     </style>
 </head>
@@ -101,21 +88,42 @@
     <h2>🚍 Smart Bus Attendance</h2>
     <p>Scan QR & Enter Roll Number</p>
 
-    <!-- FORM START -->
+    <!-- Hidden iframe to avoid new tab -->
+    <iframe name="hiddenFrame" style="display:none;"></iframe>
+
     <form method="POST"
           action="https://script.google.com/macros/s/AKfycbx7ilVGXTy9MvgWsbuXw4-udgsGa0SpUb-Vf0lVXIaNXbvVc02QyhkOyD5lVHvqoG4M/exec"
-          target="_blank">
+          target="hiddenFrame"
+          onsubmit="showPopup()">
 
         <input type="text" name="rollno" placeholder="Enter Roll Number" required>
         <button type="submit">Submit Attendance</button>
 
     </form>
-    <!-- FORM END -->
 
     <div class="footer">
         Secure • Real-Time • Automated System
     </div>
 </div>
+
+<div class="popup" id="successPopup">
+    Attendance Submitted Successfully ✅
+</div>
+
+<script>
+function showPopup(){
+    setTimeout(function(){
+        var popup = document.getElementById("successPopup");
+        popup.style.display = "block";
+
+        setTimeout(function(){
+            popup.style.display = "none";
+        }, 3000);
+
+        document.querySelector("form").reset();
+    }, 500);
+}
+</script>
 
 </body>
 </html>
